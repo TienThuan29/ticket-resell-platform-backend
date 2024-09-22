@@ -1,0 +1,7 @@
+package swp391.ticketservice.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import swp391.entity.Event;
+
+public interface EventRepository extends JpaRepository<Event, Integer> {
+}
