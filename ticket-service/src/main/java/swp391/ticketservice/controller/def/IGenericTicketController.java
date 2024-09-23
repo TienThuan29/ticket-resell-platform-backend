@@ -3,7 +3,6 @@ package swp391.ticketservice.controller.def;
 import swp391.ticketservice.dto.request.GenericTicketRequest;
 import swp391.ticketservice.dto.response.ApiResponse;
 import swp391.ticketservice.dto.response.GenericTicketResponse;
-
 import java.util.Date;
 import java.util.List;
 

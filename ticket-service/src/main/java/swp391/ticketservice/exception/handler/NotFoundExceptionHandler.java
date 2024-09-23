@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import swp391.ticketservice.exception.def.ErrorResponse;
 import swp391.ticketservice.exception.def.NotFoundException;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "ticketServiceNotFoundExceptionHandler")
 public class NotFoundExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)

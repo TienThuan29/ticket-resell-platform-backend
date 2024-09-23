@@ -1,6 +1,9 @@
 package swp391.userservice.service;
 
+import org.springframework.web.bind.annotation.RequestBody;
+import swp391.userservice.dto.reponse.ApiResponse;
 import swp391.userservice.dto.reponse.UserDTO;
+import swp391.userservice.dto.request.AuthenticationRequest;
 import swp391.userservice.dto.request.RegisterRequest;
 import swp391.userservice.dto.request.UpdateInfoRequest;
 
@@ -9,8 +12,12 @@ import swp391.userservice.dto.request.UpdateInfoRequest;
  */
 public interface IUserService {
 
-    String register(RegisterRequest registerRequest);
+    ApiResponse<UserDTO> getById(Long id);
 
-    UserDTO update(Long id, UpdateInfoRequest updateInfoRequest);
+    ApiResponse<UserDTO> authenticate(AuthenticationRequest authenticationRequest);
+
+    ApiResponse<?> register(RegisterRequest registerRequest);
+
+    ApiResponse<UserDTO> update(Long id, UpdateInfoRequest updateInfoRequest);
 
 }

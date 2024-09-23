@@ -7,7 +7,7 @@ import swp391.userservice.dto.reponse.UserDTO;
 @Component
 public class UserMapper {
 
-    public static UserDTO toUserDTO(User user) {
+    public UserDTO toUserDTO(User user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())

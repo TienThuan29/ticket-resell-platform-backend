@@ -15,7 +15,7 @@ import swp391.userservice.exception.def.ErrorResponse;
 /**
  * Author: Nguyen Tien Thuan
  */
-@RestControllerAdvice
+@RestControllerAdvice(name = "userServiceBindExceptionHandler")
 public class BindExceptionHandler {
 
     @ExceptionHandler({ConstraintViolationException.class,

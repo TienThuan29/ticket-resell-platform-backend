@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/tickets")
 @RequiredArgsConstructor
 public class TicketController implements ITicketController {
+
     private final ITicketService ticketService;
 
     @GetMapping("/get-all")
@@ -37,7 +38,6 @@ public class TicketController implements ITicketController {
             @RequestPart("ticketRequest") @Valid TicketRequest ticketRequest,
             @RequestPart("file") MultipartFile file
     ) throws IOException {
-
         return ticketService.create(ticketRequest, file);
     }
 

@@ -12,7 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import swp391.ticketservice.exception.def.BindException;
 import swp391.ticketservice.exception.def.ErrorResponse;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "ticketServiceBindExceptionHandler")
 public class BindExceptionHandler {
 
     @ExceptionHandler({ConstraintViolationException.class,

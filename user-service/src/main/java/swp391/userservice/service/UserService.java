@@ -2,11 +2,14 @@ package swp391.userservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import swp391.entity.User;
 import swp391.entity.fixed.Role;
 import swp391.userservice.configuration.MessageConfiguration;
+import swp391.userservice.dto.reponse.ApiResponse;
 import swp391.userservice.dto.reponse.UserDTO;
+import swp391.userservice.dto.request.AuthenticationRequest;
 import swp391.userservice.dto.request.RegisterRequest;
 import swp391.userservice.dto.request.UpdateInfoRequest;
 import swp391.userservice.exception.def.NotFoundException;
@@ -25,11 +28,32 @@ public class UserService implements IUserService {
 
     private final MessageConfiguration messageConfig;
 
+    private final UserMapper userMapper;
+
     @Override
-    public String register(RegisterRequest registerRequest) {
+    public ApiResponse<UserDTO> getById(Long id) {
+        var user = userRepository.findById(id);
+        return new ApiResponse<>(HttpStatus.OK, "", userMapper.toUserDTO(user.get()));
+    }
+
+
+    @Override
+    public ApiResponse<UserDTO> authenticate(AuthenticationRequest authRequest) {
+        var user = userRepository.findByUsername(authRequest.getUsername());
+        var encodePassword = BCrypt.hashpw(authRequest.getPassword(), BCrypt.gensalt());
+        if (user.isPresent() && user.get().getPassword().equals(encodePassword)) {
+            return new ApiResponse<>(HttpStatus.OK, "", userMapper.toUserDTO(user.get()));
+        }
+        else {
+            return new ApiResponse<>(HttpStatus.FORBIDDEN, messageConfig.ERROR_INVALID_USERNAME_PASSWORD, null);
+        }
+    }
+
+    @Override
+    public ApiResponse<?> register(RegisterRequest registerRequest) {
         var user = userRepository.findByUsername(registerRequest.getUsername());
         if (user.isPresent())
-            return messageConfig.ERROR_USERNAME_EXIST;
+            return new ApiResponse<>(HttpStatus.CONFLICT, messageConfig.ERROR_USERNAME_EXIST, null);
         userRepository.save(
                 User.builder()
                         .username(registerRequest.getUsername())
@@ -45,11 +69,11 @@ public class UserService implements IUserService {
                         .roleCode(Role.USER)
                         .build()
         );
-        return messageConfig.ERROR_REGISTER_SUCCESS;
+        return new ApiResponse<>(HttpStatus.CREATED, messageConfig.ERROR_REGISTER_SUCCESS, null);
     }
 
     @Override
-    public UserDTO update(Long id, UpdateInfoRequest updateInfoRequest) {
+    public ApiResponse<UserDTO> update(Long id, UpdateInfoRequest updateInfoRequest) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(messageConfig.ERROR_NOT_FOUND_USERID)
         );
@@ -57,7 +81,11 @@ public class UserService implements IUserService {
         user.setLastname(updateInfoRequest.getLastname());
         user.setPhone(updateInfoRequest.getPhone());
         user.setEmail(updateInfoRequest.getEmail());
-        return UserMapper.toUserDTO(userRepository.save(user));
+        return new ApiResponse<>(
+                HttpStatus.NO_CONTENT,
+                messageConfig.MESSAGE_UPDATE_USER_SUCCESS,
+                userMapper.toUserDTO(userRepository.save(user))
+        );
     }
 
     private String randomCustomerCode() {

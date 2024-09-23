@@ -42,5 +42,4 @@ public class ApiResponse<T> extends ResponseEntity<ApiResponse.Payload<T>> {
                 this.httpStatus = status;
             }
     }
-
 }
