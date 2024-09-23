@@ -9,7 +9,7 @@ import swp391.entity.Ticket;
 import swp391.entity.fixed.GeneralProcess;
 import swp391.ticketservice.config.MessageConfiguration;
 import swp391.ticketservice.dto.request.TicketRequest;
-import swp391.ticketservice.dto.response.Response;
+import swp391.ticketservice.dto.response.ApiResponse;
 import swp391.ticketservice.dto.response.TicketResponse;
 import swp391.ticketservice.exception.def.InvalidProcessException;
 import swp391.ticketservice.exception.def.NotFoundException;
@@ -35,59 +35,69 @@ public class TicketService implements ITicketService {
     private final StaffRepository staffRepository;
     private final MessageConfiguration message;
     @Override
-    public Response<List<TicketResponse>> getAll() {
+    public ApiResponse<List<TicketResponse>> getAll() {
         List<Ticket> tickets= ticketRepository.findAll();
         List<TicketResponse> ticketResponses= tickets.stream()
                 .map(ticketMapper::toResponse)
                 .collect(Collectors.toList());
-        return new Response<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketResponses);
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketResponses);
     }
 
     @Override
-    public Response<TicketResponse> getById(String id) {
+    public ApiResponse<TicketResponse> getById(String id) {
         Ticket ticket= ticketRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(message.INVALID_TICKET+" :"+id));
-        return new Response<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketMapper.toResponse(ticket));
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketMapper.toResponse(ticket));
     }
 
     @Override
-    public Response<TicketResponse> create(TicketRequest ticketRequest, MultipartFile file) throws IOException {
+    public ApiResponse<TicketResponse> create(TicketRequest ticketRequest, MultipartFile file) throws IOException {
         ticketRequest.setProcess(GeneralProcess.WAITING.toString());
         ticketRequest.setImage(file.getBytes());
 
         Ticket ticket= ticketMapper.toEntity(ticketRequest);
         ticketRepository.save(ticket);
-        return new Response<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketMapper.toResponse(ticket));
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketMapper.toResponse(ticket));
     }
 
     @Override
-    public Response<?> markBought(String id) {
+    public ApiResponse<?> markBought(String id) {
         Ticket ticket= ticketRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(message.INVALID_TICKET+" :"+id));
         ticket.setBought(Boolean.TRUE);
         ticketRepository.save(ticket);
-        return new Response<>(HttpStatus.OK, message.SUCCESS_OPERATION, null);
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, null);
     }
 
     @Override
-    public Response<?> markStaffCheck(String id, Long staffId) {
+    public ApiResponse<?> markStaffCheck(String id, Long staffId) {
         Ticket ticket= ticketRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(message.INVALID_TICKET+" :"+id));
         ticket.setChecked(Boolean.TRUE);
         ticket.setVerifyStaff(staffRepository.findById(staffId)
                 .orElseThrow(() -> new NotFoundException(message.INVALID_STAFF+" :"+id)));
         ticketRepository.save(ticket);
-        return new Response<>(HttpStatus.OK, message.SUCCESS_OPERATION, null);
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, null);
     }
 
     @Override
-    public Response<?> updateProcess(String id, String process) {
+    public ApiResponse<?> updateProcess(String id, String process) {
         Ticket ticket= ticketRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(message.INVALID_TICKET+" :"+id));
         ticket.setProcess(getProcess(process)
                 .orElseThrow(() -> new InvalidProcessException(message.INVALID_PROCESS+" :"+process)));
-        return new Response<>(HttpStatus.OK,message.SUCCESS_OPERATION,null);
+        return new ApiResponse<>(HttpStatus.OK,message.SUCCESS_OPERATION,null);
     }
+
+    @Override
+    public ApiResponse<List<TicketResponse>> getTicketsByProcess(String process) {
+        List<Ticket> tickets= ticketRepository.findByProcess(process).get();
+        List<TicketResponse> ticketResponses= tickets.stream()
+                .map(ticketMapper::toResponse)
+                .collect(Collectors.toList());
+        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, ticketResponses);
+    }
+
     private Optional<GeneralProcess> getProcess(String process){
         try {
             return Optional.ofNullable(GeneralProcess.valueOf(process));

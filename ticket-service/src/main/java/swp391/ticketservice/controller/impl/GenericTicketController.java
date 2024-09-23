@@ -2,15 +2,13 @@ package swp391.ticketservice.controller.impl;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import swp391.ticketservice.controller.def.IGenericTicketController;
 import swp391.ticketservice.dto.request.GenericTicketRequest;
 import swp391.ticketservice.dto.response.GenericTicketResponse;
-import swp391.ticketservice.dto.response.Response;
+import swp391.ticketservice.dto.response.ApiResponse;
 import swp391.ticketservice.service.def.IGenericTicketService;
-import swp391.ticketservice.service.impl.GenericTicketService;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +22,7 @@ public class GenericTicketController implements IGenericTicketController {
 
     @PostMapping("/create")
     @Override
-    public Response<GenericTicketResponse> createGenericTicket(
+    public ApiResponse<GenericTicketResponse> createGenericTicket(
             @RequestBody @Valid GenericTicketRequest genericTicketRequest
     ) {
         return genericTicketService.create(genericTicketRequest);
@@ -32,7 +30,7 @@ public class GenericTicketController implements IGenericTicketController {
 
     @Override
     @PutMapping("/update-price-expired")
-    public Response<?> updatePriceAndExpiredDate(
+    public ApiResponse<?> updatePriceAndExpiredDate(
             @RequestParam Long id,
             @RequestParam @Min(value = 0) Long price,
             @RequestParam Date date
@@ -42,14 +40,26 @@ public class GenericTicketController implements IGenericTicketController {
 
     @GetMapping("/get-all")
     @Override
-    public Response<List<GenericTicketResponse>> getAll() {
+    public ApiResponse<List<GenericTicketResponse>> getAll() {
         return genericTicketService.getAll();
     }
 
     @GetMapping("/get/{id}")
     @Override
-    public Response<GenericTicketResponse> getById(@PathVariable Long id) {
+    public ApiResponse<GenericTicketResponse> getById(@PathVariable Long id) {
         return genericTicketService.getById(id);
+    }
+
+    @GetMapping("/get-by-category/{categoryId}")
+    @Override
+    public ApiResponse<List<GenericTicketResponse>> getByCategory(@PathVariable Integer categoryId) {
+        return genericTicketService.getByCategory(categoryId);
+    }
+
+    @GetMapping("/get-by-event/{eventId}")
+    @Override
+    public ApiResponse<List<GenericTicketResponse>> getByEvent(@PathVariable Integer eventId) {
+        return genericTicketService.getByEvent(eventId);
     }
 
 }

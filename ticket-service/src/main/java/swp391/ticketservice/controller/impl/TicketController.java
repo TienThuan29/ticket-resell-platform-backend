@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import swp391.ticketservice.controller.def.ITicketController;
 import swp391.ticketservice.dto.request.TicketRequest;
-import swp391.ticketservice.dto.response.Response;
+import swp391.ticketservice.dto.response.ApiResponse;
 import swp391.ticketservice.dto.response.TicketResponse;
 import swp391.ticketservice.service.def.ITicketService;
 
@@ -21,19 +21,19 @@ public class TicketController implements ITicketController {
 
     @GetMapping("/get-all")
     @Override
-    public Response<List<TicketResponse>> getAll() {
+    public ApiResponse<List<TicketResponse>> getAll() {
         return ticketService.getAll();
     }
 
     @GetMapping("/get/{id}")
     @Override
-    public Response<TicketResponse> getById(@PathVariable String id) {
+    public ApiResponse<TicketResponse> getById(@PathVariable String id) {
         return ticketService.getById(id);
     }
 
     @PostMapping("/create")
     @Override
-    public Response<TicketResponse> create(
+    public ApiResponse<TicketResponse> create(
             @RequestPart("ticketRequest") @Valid TicketRequest ticketRequest,
             @RequestPart("file") MultipartFile file
     ) throws IOException {
@@ -43,19 +43,19 @@ public class TicketController implements ITicketController {
 
     @PutMapping("/mark-bought/{id}")
     @Override
-    public Response<?> markBought(@PathVariable String id) {
+    public ApiResponse<?> markBought(@PathVariable String id) {
         return ticketService.markBought(id);
     }
 
     @PutMapping("/mark-staff-check/{id}/{staffId}")
     @Override
-    public Response<?> markStaffCheck(@PathVariable String id, @PathVariable Long staffId) {
+    public ApiResponse<?> markStaffCheck(@PathVariable String id, @PathVariable Long staffId) {
         return ticketService.markStaffCheck(id, staffId);
     }
 
     @PutMapping("/update-process/{id}")
     @Override
-    public Response<?> updateProcess(@PathVariable String id, @RequestParam String process) {
+    public ApiResponse<?> updateProcess(@PathVariable String id, @RequestParam String process) {
         return ticketService.updateProcess(id, process);
     }
 }
