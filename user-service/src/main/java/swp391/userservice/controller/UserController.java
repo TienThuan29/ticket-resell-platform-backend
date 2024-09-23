@@ -1,12 +1,15 @@
 package swp391.userservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import swp391.userservice.dto.reponse.Response;
+import swp391.userservice.configuration.MessageConfiguration;
+import swp391.userservice.dto.reponse.ApiResponse;
+import swp391.userservice.dto.reponse.UserDTO;
 import swp391.userservice.dto.request.RegisterRequest;
 import swp391.userservice.dto.request.UpdateInfoRequest;
+import swp391.userservice.service.IUserService;
 import swp391.userservice.service.UserService;
 
 /**
@@ -17,32 +20,27 @@ import swp391.userservice.service.UserService;
 @RequiredArgsConstructor
 public class UserController implements IUserController {
 
-    private final UserService userService;
+    private final IUserService userService;
+
+    private final MessageConfiguration messageConfig;
 
     @Override
     @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody RegisterRequest registerRequest) {
-        String message = userService.register(registerRequest);
-        return ResponseEntity.ok(Response.builder()
-                .httpStatus(HttpStatus.OK)
-                .message("")
-                .object(message)
-                .build()
-        );
+    public ApiResponse<String> register(@RequestBody @Valid RegisterRequest registerRequest) {
+        return new ApiResponse<>(HttpStatus.OK, userService.register(registerRequest), null);
     }
 
     @Override
     @PutMapping("/update/{id}")
-    public ResponseEntity<Response> updateInfo(
+    public ApiResponse<UserDTO> updateInfo(
             @PathVariable("id") Long id,
-            @RequestBody UpdateInfoRequest updateInfoRequest
+            @RequestBody @Valid UpdateInfoRequest updateInfoRequest
     ) {
-        String message = userService.update(id, updateInfoRequest);
-        return ResponseEntity.ok(Response.builder()
-                .httpStatus(HttpStatus.OK)
-                .message("")
-                .object(message)
-                .build()
+        return new ApiResponse<>(
+                HttpStatus.OK,
+                messageConfig.MESSAGE_UPDATE_USER_SUCCESS,
+                userService.update(id, updateInfoRequest)
         );
     }
+
 }

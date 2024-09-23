@@ -28,11 +28,11 @@ public class RegisterRequest {
     private String email;
 
     @JsonProperty("firstname")
-    @NotBlank
+    @NotBlank(message = "Tên không được để trống")
     private String firstname;
 
     @JsonProperty("lastname")
-    @NotBlank
+    @NotBlank(message = "Tên không được để trống")
     private String lastname;
 
 }

@@ -12,19 +12,19 @@ import lombok.*;
 @AllArgsConstructor
 public class UpdateInfoRequest {
 
-    @NotBlank
+    @NotEmpty(message = "Tên không được để trống")
     @JsonProperty("firstname")
     private String firstname;
 
-    @NotBlank
+    @NotEmpty(message = "Tên không được để trống")
     @JsonProperty("lastname")
     private String lastname;
 
-    @NotBlank
+    @NotEmpty(message = "Email không được để trống")
     @JsonProperty("email")
     private String email;
 
-    @NotBlank
+    @NotEmpty(message = "Số điện thoại không được để trống")
     @JsonProperty("phone")
     private String phone;
 

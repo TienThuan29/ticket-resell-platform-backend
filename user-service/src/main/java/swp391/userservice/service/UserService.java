@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import swp391.entity.User;
 import swp391.entity.fixed.Role;
 import swp391.userservice.configuration.MessageConfiguration;
+import swp391.userservice.dto.reponse.UserDTO;
 import swp391.userservice.dto.request.RegisterRequest;
 import swp391.userservice.dto.request.UpdateInfoRequest;
 import swp391.userservice.exception.def.NotFoundException;
+import swp391.userservice.mapper.UserMapper;
 import swp391.userservice.repository.UserRepository;
 import java.util.UUID;
 
@@ -47,7 +49,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String update(Long id, UpdateInfoRequest updateInfoRequest) {
+    public UserDTO update(Long id, UpdateInfoRequest updateInfoRequest) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(messageConfig.ERROR_NOT_FOUND_USERID)
         );
@@ -55,8 +57,7 @@ public class UserService implements IUserService {
         user.setLastname(updateInfoRequest.getLastname());
         user.setPhone(updateInfoRequest.getPhone());
         user.setEmail(updateInfoRequest.getEmail());
-        userRepository.save(user);
-        return messageConfig.MESSAGE_UPDATE_USER_SUCCESS;
+        return UserMapper.toUserDTO(userRepository.save(user));
     }
 
     private String randomCustomerCode() {
