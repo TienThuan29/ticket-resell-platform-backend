@@ -20,20 +20,20 @@ public class TicketRequest {
     @JsonProperty("image")
     private byte[] image;
 
-    @JsonProperty("isChecked")
-    private boolean isChecked;
-
-    @JsonProperty("isBought")
-    private boolean isBought;
-
-    @JsonProperty("isValid")
-    private boolean isValid;
+//    @JsonProperty("isChecked")
+//    private boolean isChecked;
+//
+//    @JsonProperty("isBought")
+//    private boolean isBought;
+//
+//    @JsonProperty("isValid")
+//    private boolean isValid;
 
     @JsonProperty("note")
     private String note;
 
-    @JsonProperty("process")
-    private String process;
+//    @JsonProperty("process")
+//    private String process;
 
     @JsonProperty("genericTicketId")
     private Long genericTicketId;
