@@ -12,11 +12,13 @@ import org.springframework.web.context.request.WebRequest;
 import swp391.ticketservice.exception.def.BindException;
 import swp391.ticketservice.exception.def.ErrorResponse;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "ticketServiceBindExceptionHandler")
 public class BindExceptionHandler {
 
     @ExceptionHandler({ConstraintViolationException.class,
-            MissingServletRequestParameterException.class, MethodArgumentNotValidException.class})
+            MissingServletRequestParameterException.class,
+            MethodArgumentNotValidException.class}
+    )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleValidationException(Exception e) {

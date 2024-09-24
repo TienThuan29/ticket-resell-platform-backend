@@ -3,6 +3,7 @@ package swp391.ticketservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import swp391.adminservice.repository.PolicyRepository;
 import swp391.entity.*;
 import swp391.ticketservice.config.MessageConfiguration;
@@ -16,7 +17,6 @@ import swp391.ticketservice.repository.EventRepository;
 import swp391.ticketservice.repository.GenericTicketRepository;
 import swp391.ticketservice.service.def.IGenericTicketService;
 import swp391.userservice.repository.UserRepository;
-
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Author: Nguyen Nhat Truong
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class GenericTicketService implements IGenericTicketService {
 

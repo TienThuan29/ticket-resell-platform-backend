@@ -2,9 +2,7 @@ package swp391.ticketservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import swp391.entity.Staff;
 import swp391.entity.Ticket;
-import swp391.entity.User;
 import swp391.entity.fixed.GeneralProcess;
 import swp391.ticketservice.dto.request.TicketRequest;
 import swp391.ticketservice.dto.response.TicketResponse;
@@ -13,7 +11,6 @@ import swp391.ticketservice.exception.def.NotFoundException;
 import swp391.ticketservice.repository.GenericTicketRepository;
 import swp391.ticketservice.utils.ImageUtil;
 import swp391.userservice.repository.UserRepository;
-
 import java.util.Base64;
 import java.util.Optional;
 

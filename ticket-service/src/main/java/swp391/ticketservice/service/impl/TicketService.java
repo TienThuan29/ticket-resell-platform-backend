@@ -3,6 +3,7 @@ package swp391.ticketservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import swp391.adminservice.repository.StaffRepository;
 import swp391.entity.Ticket;
@@ -16,8 +17,6 @@ import swp391.ticketservice.exception.def.NotFoundException;
 import swp391.ticketservice.mapper.TicketMapper;
 import swp391.ticketservice.repository.TicketRepository;
 import swp391.ticketservice.service.def.ITicketService;
-import swp391.ticketservice.utils.ImageUtil;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Author: Nguyen Nhat Truong
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class TicketService implements ITicketService {
 
@@ -105,4 +104,5 @@ public class TicketService implements ITicketService {
             return Optional.empty();
         }
     }
+
 }
