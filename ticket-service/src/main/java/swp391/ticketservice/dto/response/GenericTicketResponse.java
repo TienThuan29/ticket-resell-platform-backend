@@ -3,9 +3,13 @@ package swp391.ticketservice.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import swp391.userservice.dto.reponse.SellerResponse;
 
 import java.util.Date;
 
+/**
+ * Author: Nguyen Nhat Truong
+ */
 @Data
 @Builder
 public class GenericTicketResponse {
@@ -36,15 +40,12 @@ public class GenericTicketResponse {
     @JsonProperty("isPaper")
     private boolean isPaper;
 
-    @JsonProperty("policyName")
-    private String policyName;
+    @JsonProperty("category")
+    private CategoryResponse category;
 
-    @JsonProperty("categoryName")
-    private String categoryName;
+    @JsonProperty("event")
+    private EventResponse event;
 
-    @JsonProperty("eventName")
-    private String eventName;
-
-    @JsonProperty("sellerName")
-    private String sellerName;
+    @JsonProperty("seller")
+    private SellerResponse seller;
 }

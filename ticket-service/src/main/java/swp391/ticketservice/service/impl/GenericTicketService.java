@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import swp391.adminservice.repository.PolicyRepository;
-import swp391.entity.Category;
-import swp391.entity.Event;
-import swp391.entity.GenericTicket;
-import swp391.entity.User;
+import swp391.entity.*;
 import swp391.ticketservice.config.MessageConfiguration;
 import swp391.ticketservice.dto.request.GenericTicketRequest;
 import swp391.ticketservice.dto.response.ApiResponse;
@@ -41,18 +38,27 @@ public class GenericTicketService implements IGenericTicketService {
 
     @Override
     public ApiResponse<GenericTicketResponse> create(GenericTicketRequest genericTicketRequest) {
-        policyRepository.findById(genericTicketRequest.getPolicyId())
+
+        Policy policy= policyRepository.findById(genericTicketRequest.getPolicyId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_POLICY+" :"+genericTicketRequest.getPolicyId()));
-        categoryRepository.findById(genericTicketRequest.getCategoryId())
+        Category category= categoryRepository.findById(genericTicketRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_CATEGORY+" :"+genericTicketRequest.getCategoryId()));
-        eventRepository.findById(genericTicketRequest.getEventId())
+        Event event= eventRepository.findById(genericTicketRequest.getEventId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_EVENT+" :"+genericTicketRequest.getEventId()));
         User seller= userRepository.findById(genericTicketRequest.getSellerId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_BUYER+" :"+genericTicketRequest.getSellerId()));
         if(!seller.getIsSeller())
-            throw new NotFoundException(""+seller.getId());
-        GenericTicket genericTicket= genericTicketRepository.save(genericTicketMapper.toEntity(genericTicketRequest));
-        return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, genericTicketMapper.toResponse(genericTicket));
+            throw new NotFoundException(message.INVALID_SELLER+" :"+seller.getId());
+
+        GenericTicket genericTicket= genericTicketMapper.toEntity(genericTicketRequest);
+        genericTicket.setPolicy(policy);
+        genericTicket.setCategory(category);
+        genericTicket.setEvent(event);
+        genericTicket.setSeller(seller);
+
+        return new ApiResponse<>(HttpStatus.OK,
+                message.SUCCESS_OPERATION,
+                genericTicketMapper.toResponse(genericTicketRepository.save(genericTicket)));
     }
 
     @Override
@@ -62,7 +68,7 @@ public class GenericTicketService implements IGenericTicketService {
         genericTicket.setPrice(price);
         genericTicket.setExpiredDateTime(date);
         genericTicketRepository.save(genericTicket);
-        return new ApiResponse<>(HttpStatus.OK,message.SUCCESS_OPERATION, null);
+        return new ApiResponse<>(HttpStatus.OK,message.SUCCESS_OPERATION);
     }
 
     @Override

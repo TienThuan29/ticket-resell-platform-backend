@@ -12,6 +12,9 @@ import swp391.ticketservice.service.def.IGenericTicketService;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Author: Nguyen Nhat Truong
+ */
 @RestController
 @RequestMapping("/api/tickets/generic")
 public class GenericTicketController implements IGenericTicketController {
@@ -28,9 +31,9 @@ public class GenericTicketController implements IGenericTicketController {
     }
 
     @Override
-    @PutMapping("/update-price-expired")
+    @PutMapping("/update-price-expired/{id}")
     public ApiResponse<?> updatePriceAndExpiredDate(
-            @RequestParam Long id,
+            @PathVariable Long id,
             @RequestParam @Min(value = 0) Long price,
             @RequestParam Date date
     ) {

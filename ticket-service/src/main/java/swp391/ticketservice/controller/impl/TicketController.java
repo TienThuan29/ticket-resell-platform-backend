@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import swp391.entity.fixed.GeneralProcess;
 import swp391.ticketservice.controller.def.ITicketController;
 import swp391.ticketservice.dto.request.TicketRequest;
 import swp391.ticketservice.dto.response.ApiResponse;
@@ -13,6 +14,9 @@ import swp391.ticketservice.service.def.ITicketService;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Author: Nguyen Nhat Truong
+ */
 @RestController
 @RequestMapping("/api/tickets")
 @RequiredArgsConstructor
@@ -53,9 +57,16 @@ public class TicketController implements ITicketController {
         return ticketService.markStaffCheck(id, staffId);
     }
 
-    @PutMapping("/update-process/{id}")
+    @PutMapping("/update-process/{id}/{process}")
     @Override
-    public ApiResponse<?> updateProcess(@PathVariable String id, @RequestParam String process) {
+    public ApiResponse<?> updateProcess(@PathVariable String id, @PathVariable String process) {
         return ticketService.updateProcess(id, process);
     }
+
+    @GetMapping("/get-tickets-by-process/{process}")
+    @Override
+    public ApiResponse<List<TicketResponse>> getTicketByProcess(@PathVariable GeneralProcess process) {
+        return ticketService.getTicketsByProcess(process);
+    }
+
 }

@@ -6,6 +6,9 @@ import swp391.ticketservice.dto.response.GenericTicketResponse;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Author: Nguyen Nhat Truong
+ */
 public interface IGenericTicketController {
 
     ApiResponse<GenericTicketResponse> createGenericTicket(GenericTicketRequest genericTicketRequest);

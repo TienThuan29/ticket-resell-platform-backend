@@ -9,6 +9,7 @@ import swp391.ticketservice.dto.response.GenericTicketResponse;
 import swp391.ticketservice.exception.def.NotFoundException;
 import swp391.ticketservice.repository.CategoryRepository;
 import swp391.ticketservice.repository.EventRepository;
+import swp391.userservice.mapper.UserMapper;
 import swp391.userservice.repository.UserRepository;
 
 /**
@@ -25,9 +26,14 @@ public class GenericTicketMapper {
     private final UserRepository userRepository;
 
     private final EventRepository eventRepository;
-    public GenericTicket toEntity(GenericTicketRequest genericTicketRequest){
 
-        GenericTicket genericTicket= GenericTicket
+    private final CategoryMapper categoryMapper;
+
+    private final EventMapper eventMapper;
+
+    private final UserMapper userMapper;
+    public GenericTicket toEntity(GenericTicketRequest genericTicketRequest){
+        return GenericTicket
                 .builder()
                 .ticketName(genericTicketRequest.getGenericTicketName())
                 .price(genericTicketRequest.getPrice())
@@ -46,11 +52,10 @@ public class GenericTicketMapper {
                 .seller(userRepository.findById(genericTicketRequest.getSellerId())
                         .orElseThrow(() -> new NotFoundException(""+genericTicketRequest.getSellerId())))
                 .build();
-        return genericTicket;
     }
 
     public GenericTicketResponse toResponse(GenericTicket genericTicket){
-        GenericTicketResponse genericTicketResponse= GenericTicketResponse
+        return GenericTicketResponse
                 .builder()
                 .id(genericTicket.getId())
                 .ticketName(genericTicket.getTicketName())
@@ -61,11 +66,9 @@ public class GenericTicketMapper {
                 .linkEvent(genericTicket.getLinkEvent())
                 .description(genericTicket.getDescription())
                 .isPaper(genericTicket.isPaper())
-                .policyName(genericTicket.getPolicy().getContent())
-                .categoryName(genericTicket.getCategory().getName())
-                .eventName(genericTicket.getEvent().getName())
-                .sellerName(genericTicket.getSeller().getFirstname()+genericTicket.getSeller().getLastname())
+                .category(categoryMapper.toResponse(genericTicket.getCategory()))
+                .event(eventMapper.toResponse(genericTicket.getEvent()))
+                .seller(userMapper.toSellerResponse(genericTicket.getSeller()))
                 .build();
-        return genericTicketResponse;
     }
 }

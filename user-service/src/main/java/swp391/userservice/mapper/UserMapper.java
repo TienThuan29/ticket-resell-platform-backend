@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import swp391.entity.User;
 import swp391.entity.fixed.Role;
+import swp391.userservice.dto.reponse.SellerResponse;
 import swp391.userservice.dto.reponse.UserDTO;
 import swp391.userservice.dto.request.RegisterRequest;
 import swp391.userservice.utils.ImageUtil;
@@ -49,6 +50,17 @@ public class UserMapper {
                 .avatar(
                         user.getAvatar() == null ? null :  ImageUtil.decompressImage(user.getAvatar())
                 )
+                .build();
+    }
+
+    public SellerResponse toSellerResponse(User user){
+        return SellerResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .lastname(user.getLastname())
+                .firstname(user.getFirstname())
+                .avatar(user.getAvatar())
+                .email(user.getEmail())
                 .build();
     }
 
