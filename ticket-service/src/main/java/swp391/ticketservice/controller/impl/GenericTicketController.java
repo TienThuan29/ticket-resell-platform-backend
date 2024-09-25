@@ -9,7 +9,6 @@ import swp391.ticketservice.dto.request.GenericTicketRequest;
 import swp391.ticketservice.dto.response.GenericTicketResponse;
 import swp391.ticketservice.dto.response.ApiResponse;
 import swp391.ticketservice.service.def.IGenericTicketService;
-
 import java.util.Date;
 import java.util.List;
 

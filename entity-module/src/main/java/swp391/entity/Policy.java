@@ -17,9 +17,10 @@ public class Policy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", columnDefinition = "nvarchar(MAX)")
+    @Column(name = "content", columnDefinition = "nvarchar(MAX)", nullable = false)
     private String content;
 
+    @Column(name = "fee", nullable = false)
     private Integer fee;
 
     @Column(name = "is_deleted", columnDefinition = "bit default 0")

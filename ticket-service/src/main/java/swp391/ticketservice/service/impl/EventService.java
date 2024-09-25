@@ -37,10 +37,13 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ApiResponse<List<EventResponse>> getAllEvent() {
-        return new ApiResponse<>(HttpStatus.OK, "",
-                eventRepository.findAll().stream().map(eventMapper::toResponse).toList()
+    public ApiResponse<List<EventResponse>> getHappeningEvents() {
+        return new ApiResponse<>(
+                HttpStatus.OK, "",
+                eventRepository.getHappeningEvents().stream()
+                        .map(eventMapper::toResponse).toList()
         );
     }
+
 
 }

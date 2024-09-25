@@ -37,7 +37,8 @@ public class GenericTicketService implements IGenericTicketService {
     private final PolicyRepository policyRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
     @Override
     public ApiResponse<GenericTicketResponse> create(GenericTicketRequest genericTicketRequest) {
         policyRepository.findById(genericTicketRequest.getPolicyId())
@@ -48,7 +49,7 @@ public class GenericTicketService implements IGenericTicketService {
                 .orElseThrow(() -> new NotFoundException(message.INVALID_EVENT+" :"+genericTicketRequest.getEventId()));
         User seller= userRepository.findById(genericTicketRequest.getSellerId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_BUYER+" :"+genericTicketRequest.getSellerId()));
-        if(seller.getIsSeller())
+        if(!seller.getIsSeller())
             throw new NotFoundException(""+seller.getId());
         GenericTicket genericTicket= genericTicketRepository.save(genericTicketMapper.toEntity(genericTicketRequest));
         return new ApiResponse<>(HttpStatus.OK, message.SUCCESS_OPERATION, genericTicketMapper.toResponse(genericTicket));

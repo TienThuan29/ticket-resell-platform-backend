@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication(scanBasePackages = {"swp391.*"})
-@EntityScan(value = "swp391.entity.*")
+@EntityScan(value = "swp391.*")
 public class TicketServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(TicketServiceApplication.class, args);

@@ -1,4 +1,4 @@
-package swp391.userservice.configuration;
+package swp391.ticketservice.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
-@Configuration("userServiceSecurityConfiguration")
+@Configuration("ticketServiceSecurityConfiguration")
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
