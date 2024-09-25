@@ -46,7 +46,7 @@ public class GenericTicketService implements IGenericTicketService {
                 .orElseThrow(() -> new NotFoundException(message.INVALID_EVENT+" :"+genericTicketRequest.getEventId()));
         User seller= userRepository.findById(genericTicketRequest.getSellerId())
                 .orElseThrow(() -> new NotFoundException(message.INVALID_BUYER+" :"+genericTicketRequest.getSellerId()));
-        if(seller.getIsSeller())
+        if(!seller.getIsSeller())
             throw new NotFoundException(message.INVALID_SELLER+" :"+seller.getId());
 
         GenericTicket genericTicket= genericTicketMapper.toEntity(genericTicketRequest);

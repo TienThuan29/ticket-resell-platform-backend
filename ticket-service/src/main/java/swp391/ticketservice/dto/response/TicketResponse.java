@@ -41,6 +41,6 @@ public class TicketResponse {
     @JsonProperty("buyerId")
     private Long buyerId;
 
-    @JsonProperty("staffId")
-    private Long staffId;
+    @JsonProperty("verifyStaffId")
+    private Long verifyStaffId;
 }

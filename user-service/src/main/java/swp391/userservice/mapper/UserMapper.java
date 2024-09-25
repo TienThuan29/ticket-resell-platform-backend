@@ -2,6 +2,7 @@ package swp391.userservice.mapper;
 
 import org.springframework.stereotype.Component;
 import swp391.entity.User;
+import swp391.userservice.dto.reponse.SellerResponse;
 import swp391.userservice.dto.reponse.UserDTO;
 
 @Component
@@ -21,6 +22,17 @@ public class UserMapper {
                 .revenue(user.getRevenue())
                 .customerCode(user.getCustomerCode())
                 .isSeller(user.getIsSeller())
+                .build();
+    }
+
+    public SellerResponse toSellerResponse(User user){
+        return SellerResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .lastname(user.getLastname())
+                .firstname(user.getFirstname())
+                .avatar(user.getAvatar())
+                .email(user.getEmail())
                 .build();
     }
 
