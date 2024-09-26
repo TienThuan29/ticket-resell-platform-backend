@@ -44,6 +44,7 @@ public class UserMapper {
                 .isEnable(user.getIsEnable())
                 .roleCode(user.getRoleCode())
                 .balance(user.getBalance())
+                .phone(user.getPhone())
                 .revenue(user.getRevenue())
                 .customerCode(user.getCustomerCode())
                 .isSeller(user.getIsSeller())

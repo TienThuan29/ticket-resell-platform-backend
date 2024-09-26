@@ -13,39 +13,28 @@ import java.util.Date;
 @Data
 @Builder
 public class GenericTicketResponse {
-    @JsonProperty("id")
-    private Long id;
 
-    @JsonProperty("ticketName")
-    private String ticketName;
+    @JsonProperty("id") private Long id;
 
-    @JsonProperty("price")
-    private Long price;
+    @JsonProperty("ticketName") private String ticketName;
 
-    @JsonProperty("salePercent")
-    private Double salePercent;
+    @JsonProperty("price") private Long price;
 
-    @JsonProperty("area")
-    private String area;
+    @JsonProperty("salePercent") private Double salePercent;
 
-    @JsonProperty("expiredDateTime")
-    private Date expiredDateTime;
+    @JsonProperty("area") private String area;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("expiredDateTime") private Date expiredDateTime;
 
-    @JsonProperty("linkEvent")
-    private String linkEvent;
+    @JsonProperty("description") private String description;
 
-    @JsonProperty("isPaper")
-    private boolean isPaper;
+    @JsonProperty("linkEvent") private String linkEvent;
 
-    @JsonProperty("category")
-    private CategoryResponse category;
+    @JsonProperty("isPaper") private boolean isPaper;
 
-    @JsonProperty("event")
-    private EventResponse event;
+    @JsonProperty("category") private CategoryResponse category;
 
-    @JsonProperty("seller")
-    private SellerResponse seller;
+    @JsonProperty("event") private EventResponse event;
+
+    @JsonProperty("seller") private SellerResponse seller;
 }
